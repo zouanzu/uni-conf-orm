@@ -56,7 +56,6 @@ public class JobProcessor {
 
     /** 配置管理器（单例依赖，线程安全） */
     private final ConfigManagers configManager;
-
     /** 连接工厂（单例依赖，线程安全） */
     private final ConnectionFactory connectionFactory;
 
