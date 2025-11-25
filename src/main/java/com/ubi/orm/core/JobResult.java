@@ -1,4 +1,4 @@
-package com.ubi.orm.job;
+package com.ubi.orm.core;
 
 import lombok.Data;
 

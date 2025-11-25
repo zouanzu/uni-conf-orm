@@ -2,6 +2,8 @@ package com.ubi.orm.core;
 
 import com.ubi.orm.config.SqlConfig;
 import com.ubi.orm.param.StandardParams;
+import com.ubi.orm.validator.Joi;
+import com.ubi.orm.validator.ParamsMapping;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,23 +20,19 @@ public class ParamResolver {
     /**
      * 解析参数（处理默认值、类型转换）
      */
-    public Map<String, Object> resolve(StandardParams params) {
+    public Map<String, Object> resolve(StandardParams standardParams) throws Exception {
         Map<String, Object> resolved = new HashMap<>();
 
         // 1. 处理配置的参数映射
         if (sqlConfig.getParamsMapping() != null) {
-            for (SqlConfig.ParamMapping mapping : sqlConfig.getParamsMapping()) {
+            for (ParamsMapping mapping : sqlConfig.getParamsMapping()) {
                 String paramKey = mapping.getAlias() != null ? mapping.getAlias() : mapping.getField();
-                Object value = getParamFromSource(params, mapping.getField(), mapping.getSource());
-
-                // 设置默认值
-                if (value == null && mapping.getSchema().getDefaultValue() != null) {
-                    value = mapping.getSchema().getDefaultValue();
-                }
-
+                Object value = getParamFromSource(standardParams, paramKey, mapping.getSource());
+                Joi validator = new Joi(mapping);
+                validator.validate(value);
                 // 类型转换（简化版，实际可扩展更多类型）
                 if (value != null) {
-                    value = convertType(value, mapping.getSchema().getType());
+                    value = convertType(value, mapping.getDataType());
                 }
 
                 resolved.put(paramKey, value);
@@ -43,11 +41,15 @@ public class ParamResolver {
 
         // 2. 补充主键参数（用于更新/删除）
         String pk = sqlConfig.getPk();
-        Object pkValue = getParamFromSource(params, pk, "all");
+        Object pkValue = getParamFromSource(standardParams, pk, "all");
         if (pkValue != null) {
             resolved.put(pk, pkValue);
         }
-
+        // 3.补充action参数（用于确定是更新还是插入操作）
+        String actField= sqlConfig.getAction();
+        if (actField != null) {
+           resolved.put("action",getParamFromSource(standardParams, actField, "all"));
+        }
         return resolved;
     }
 

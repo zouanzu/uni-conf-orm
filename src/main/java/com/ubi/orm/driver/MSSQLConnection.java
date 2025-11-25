@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * MSSQL数据库驱动（单例模式）
  * 功能：实现MSSQL特有的SQL处理和连接管理，连接池采用懒加载
+ * @author 邹安族
  */
 public class MSSQLConnection implements DatabaseConnection {
 

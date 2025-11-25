@@ -1,45 +1,174 @@
 package com.ubi.orm.security;
 
-import com.ubi.orm.config.AuthConfig;
-
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
-// 限流控制器
+/**
+ * 支持接口级安全配置的限流+防抖控制器
+ * 特性：
+ * 1. 不同接口可指定独立的限流/防抖参数（随调用传入）
+ * 2. 为"接口标识+前端指纹"的组合维护独立状态
+ * 3. 线程安全，支持高并发场景
+ * @author 邹安族
+ */
 public class RateLimiter {
-    private final Map<String, RequestRecord> records = new ConcurrentHashMap<>();
-    private final AuthConfig authConfig;
-
-    public RateLimiter(AuthConfig authConfig) {
-        this.authConfig = authConfig;
+    // 全局唯一实例（饿汉式单例，类加载时初始化，线程安全）
+    private static final RateLimiter INSTANCE = new RateLimiter();
+    // 状态存储结构：
+    // 外层Map：key=接口标识（如"/api/login"），value=该接口的所有指纹状态
+    // 内层Map：key=前端指纹，value=该接口下该指纹的具体状态（时间戳队列+上次有效时间）
+    private final ConcurrentHashMap<String, ConcurrentHashMap<String, FingerprintState>> apiStates = new ConcurrentHashMap<>();
+    // 私有化构造方法，禁止外部创建实例
+    private RateLimiter() {}
+    /**
+     * 获取全局唯一实例
+     * @return 单例实例
+     */
+    public static RateLimiter getInstance() {
+        return INSTANCE;
     }
+    /**
+     * 检查请求是否允许（核心方法，支持接口级参数）
+     * @param apiId 接口唯一标识（如接口路径"/api/pay"）
+     * @param clientFingerprint 前端指纹（客户端唯一标识）
+     * @param maxRequests 该接口单位时间内的最大请求数（限流阈值）
+     * @param window 限流时间窗口（如10秒）
+     * @param windowUnit 限流时间单位
+     * @param debounce 防抖间隔（如500毫秒，两次有效请求的最小间隔）
+     * @param debounceUnit 防抖时间单位
+     * @ true：允许请求；false：被限流或防抖拒绝
+     */
+    public void check(
+            String apiId,
+            String clientFingerprint,
+            int maxRequests,
+            long window,
+            TimeUnit windowUnit,
+            long debounce,
+            TimeUnit debounceUnit) throws RateLimitException {
 
-    public void check(String clientId) {
+        // 1. 参数合法性校验
+        if (apiId == null || apiId.trim().isEmpty()) {
+            throw new IllegalArgumentException("接口标识(apiId)不能为空");
+        }
+        if (clientFingerprint == null || clientFingerprint.trim().isEmpty()) {
+            throw new IllegalArgumentException("前端指纹(clientFingerprint)不能为空");
+        }
+        if (maxRequests <= 0) {
+            throw new IllegalArgumentException("最大请求数(maxRequests)必须大于0");
+        }
+        if (window <= 0) {
+            throw new IllegalArgumentException("限流窗口(window)必须大于0");
+        }
+        if (debounce < 0) {
+            throw new IllegalArgumentException("防抖间隔(debounce)不能为负数");
+        }
+
+        // 标准化参数
+        String normalizedApiId = apiId.trim();
+        String normalizedFingerprint = clientFingerprint.trim();
+        long windowMillis = windowUnit.toMillis(window);
+        long debounceMillis = debounceUnit.toMillis(debounce);
+
+        // 2. 获取当前接口的指纹状态Map（不存在则创建）
+        ConcurrentHashMap<String, FingerprintState> fingerprintStates = apiStates.computeIfAbsent(
+                normalizedApiId,
+                k -> new ConcurrentHashMap<>() // 为新接口创建指纹状态Map
+        );
+
+        // 3. 获取当前"接口+指纹"的状态（不存在则创建）
+        FingerprintState state = fingerprintStates.computeIfAbsent(
+                normalizedFingerprint,
+                k -> new FingerprintState() // 为新指纹创建状态
+        );
+
         long now = System.currentTimeMillis();
-        RequestRecord record = records.computeIfAbsent(clientId, k -> new RequestRecord());
 
-        // 清理过期记录
-        long window = TimeUnit.SECONDS.toMillis(authConfig.getRateLimitWindow());
-        record.timestamps.removeIf(t -> t < now - window);
-
-        // 限流检查
-        if (authConfig.getRateLimitMax() > 0 && record.timestamps.size() >= authConfig.getRateLimitMax()) {
-            throw new SecurityException("Rate limit exceeded");
+        // 4. 防抖检查：当前请求与上次有效请求的间隔必须≥防抖时间
+        long lastValidTime = state.lastValidRequestTime.get();
+        if (now - lastValidTime < debounceMillis) {
+            throw new RateLimitException("防抖触发:两次请求间隔大于阈值"+debounceMillis+"毫秒"); // 防抖触发
         }
 
-        // 防抖检查
-        if (authConfig.getIntervalMin() > 0 && !record.timestamps.isEmpty()) {
-            long last = record.timestamps.getLast();
-            if (now - last < authConfig.getIntervalMin()) {
-                throw new SecurityException("Request interval too small");
+        // 5. 限流检查：清理滑动窗口外的过期时间戳
+        long windowStart = now - windowMillis;
+        while (true) {
+            Long oldestTimestamp = state.timestamps.peek();
+            if (oldestTimestamp == null || oldestTimestamp >= windowStart) {
+                break; // 无过期记录，停止清理
             }
+            state.timestamps.poll(); // 移除过期时间戳
         }
 
-        record.timestamps.add(now);
+        // 6. 检查窗口内请求数是否超过阈值
+        if (state.timestamps.size() < maxRequests) {
+            state.timestamps.add(now);
+            state.lastValidRequestTime.set(now);
+
+        } else {
+            throw new RateLimitException("限流触发:请求频率大于阈值"); // 限流触发
+        }
     }
 
-    private static class RequestRecord {
-        final java.util.Deque<Long> timestamps = new java.util.ArrayDeque<>();
+
+    /**
+     * 简化调用方法（使用默认时间单位：限流窗口=秒，防抖间隔=毫秒）
+     * 适用于大部分场景：maxRequests=每秒最大请求数，debounce=毫秒间隔
+     */
+    public void check(
+            String apiId,
+            String clientFingerprint,
+            int maxRequestsPerSecond, // 每秒最大请求数
+            long window,
+            long debounceMillis) throws RateLimitException { // 防抖间隔（毫秒）
+        check(
+                apiId,
+                clientFingerprint,
+                maxRequestsPerSecond,
+                window,
+                TimeUnit.SECONDS,
+                debounceMillis,
+                TimeUnit.MILLISECONDS
+        );
+    }
+
+
+    /**
+     * 内部类：封装"接口+指纹"的状态
+     */
+    private static class FingerprintState {
+        // 该接口下该指纹的请求时间戳队列（限流用）
+        final ConcurrentLinkedQueue<Long> timestamps = new ConcurrentLinkedQueue<>();
+        // 该接口下该指纹的上次有效请求时间（防抖用）
+        final AtomicLong lastValidRequestTime = new AtomicLong(0);
+    }
+
+
+    // 辅助方法：获取指定接口+指纹的当前窗口请求数（调试用）
+    public int getCurrentWindowRequests(String apiId, String clientFingerprint) {
+        if (apiId == null || clientFingerprint == null) {
+            return 0;
+        }
+        ConcurrentHashMap<String, FingerprintState> fingerprintStates = apiStates.get(apiId.trim());
+        if (fingerprintStates == null) {
+            return 0;
+        }
+        FingerprintState state = fingerprintStates.get(clientFingerprint.trim());
+        return state == null ? 0 : state.timestamps.size();
+    }
+
+    // 辅助方法：获取指定接口+指纹的上次有效请求时间（调试用）
+    public long getLastValidRequestTime(String apiId, String clientFingerprint) {
+        if (apiId == null || clientFingerprint == null) {
+            return 0;
+        }
+        ConcurrentHashMap<String, FingerprintState> fingerprintStates = apiStates.get(apiId.trim());
+        if (fingerprintStates == null) {
+            return 0;
+        }
+        FingerprintState state = fingerprintStates.get(clientFingerprint.trim());
+        return state == null ? 0 : state.lastValidRequestTime.get();
     }
 }

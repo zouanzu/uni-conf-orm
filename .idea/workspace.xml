@@ -4,18 +4,72 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ae24845-8cbf-4485-931b-c1a92899214b" name="Changes" comment="" />
+    <list default="true" id="2ae24845-8cbf-4485-931b-c1a92899214b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/AuthConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/AuthConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/ConfigManagers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/ConfigManagers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/DbConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/DbConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/JobConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/JobConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/SqlConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/config/SqlConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/JobProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/JobProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/JobResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/JobResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/OpmProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/OpmProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/OrmProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/OrmProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/ParamResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/ParamResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/QueryBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/QueryBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/core/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/DatabaseDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/DatabaseDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/DriverFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/DriverFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/MSSQLConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/MSSQLConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/MSSQLDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/MSSQLDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/MySQLDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/MySQLDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/SQLiteDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/driver/SQLiteDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/AuditLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/AuditLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/SlowQueryLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/SlowQueryLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/log/LogFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/log/LogFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/log/LogUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/monitor/log/LogUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/ScriptExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/ScriptExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/ScriptExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/ScriptExecutorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/impl/GroovyScriptExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/impl/GroovyScriptExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/impl/JavaScriptExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/impl/JavaScriptExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/impl/PythonScriptExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/script/impl/PythonScriptExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/RateLimitException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/RateLimitException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/RateLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/RateLimiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/SignatureException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/SignatureException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/SignatureValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/security/SignatureValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ubi/orm/validator/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ubi/orm/validator/Test.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/zouanzu/ubi-conf-orm.git",
+    "accountId": "05da7d8f-1a55-4c92-982c-8ae44783bdcf"
+  }
 }]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="355DNZQjvCeLdsnXnW0Tc6CViPY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -24,13 +78,47 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Test.executor": "Run",
+    "Application.testConfig.executor": "Run",
+    "Maven.ubi-conf-orm [deploy].executor": "Run",
+    "Maven.ubi-conf-orm [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "F:/workspace2025/msxtjava/ubi-conf-orm",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.testRunning",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ubi.orm.validator.Test" />
+      <module name="ubi-conf-orm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ubi.orm.validator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Test" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -47,8 +135,33 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1762391008666</updated>
-      <workItem from="1762391009737" duration="1000" />
+      <workItem from="1762391009737" duration="168245000" />
+      <workItem from="1764036305014" duration="356000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/ubi/orm/config/ConfigManager.java</url>
+          <line>537</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/testConfig.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/ubi/orm/validator/Test.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

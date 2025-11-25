@@ -10,24 +10,21 @@ public class LogUtils {
     private static final Logger coreLog = LogFactory.getLogger(LogFactory.MODULE_CORE);
     // 数据库驱动日志
     private static final Logger driverLog = LogFactory.getLogger(LogFactory.MODULE_DRIVER);
-    // 安全组件日志
-    private static final Logger securityLog = LogFactory.getLogger(LogFactory.MODULE_SECURITY);
-    // 任务流日志
-    private static final Logger jobLog = LogFactory.getLogger(LogFactory.MODULE_JOB);
-    // 监控日志
-    private static final Logger monitorLog = LogFactory.getLogger(LogFactory.MODULE_MONITOR);
 
+    static {
+        LogFactory.setLevel(LogFactory.MODULE_CORE,"debug");
+    }
     // ----------------- 核心模块日志 -----------------
     public static void coreDebug(String msg, Object... args) {
-        if (coreLog.isDebugEnabled()) coreLog.debug(msg, args);
+         coreLog.debug(msg, args);
     }
 
     public static void coreInfo(String msg, Object... args) {
-        if (coreLog.isInfoEnabled()) coreLog.info(msg, args);
+        coreLog.info(msg, args);
     }
 
     public static void coreWarn(String msg, Object... args) {
-        if (coreLog.isWarnEnabled()) coreLog.warn(msg, args);
+         coreLog.warn(msg, args);
     }
 
     public static void coreError(String msg, Throwable t) {
@@ -47,38 +44,5 @@ public class LogUtils {
         driverLog.error(msg, t);
     }
 
-    // ----------------- 安全组件日志 -----------------
-    public static void securityInfo(String msg, Object... args) {
-        if (securityLog.isInfoEnabled()) securityLog.info(msg, args);
-    }
 
-    public static void securityWarn(String msg, Object... args) {
-        if (securityLog.isWarnEnabled()) securityLog.warn(msg, args);
-    }
-
-    public static void securityError(String msg, Throwable t) {
-        securityLog.error(msg, t);
-    }
-
-    // ----------------- 任务流日志 -----------------
-    public static void jobDebug(String msg, Object... args) {
-        if (jobLog.isDebugEnabled()) jobLog.debug(msg, args);
-    }
-
-    public static void jobInfo(String msg, Object... args) {
-        if (jobLog.isInfoEnabled()) jobLog.info(msg, args);
-    }
-
-    public static void jobError(String msg, Throwable t) {
-        jobLog.error(msg, t);
-    }
-
-    // ----------------- 监控日志 -----------------
-    public static void monitorInfo(String msg, Object... args) {
-        if (monitorLog.isInfoEnabled()) monitorLog.info(msg, args);
-    }
-
-    public static void monitorWarn(String msg, Object... args) {
-        if (monitorLog.isWarnEnabled()) monitorLog.warn(msg, args);
-    }
 }

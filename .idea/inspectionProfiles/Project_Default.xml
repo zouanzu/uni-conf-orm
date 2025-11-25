@@ -3,7 +3,7 @@
     <option name="myName" value="Project Default" />
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
-        <language minSize="55" name="Java" />
+        <language minSize="115" name="Java" />
       </Languages>
     </inspection_tool>
     <inspection_tool class="MavenDuplicateDependenciesInspection" enabled="false" level="WARNING" enabled_by_default="false" />
@@ -12,15 +12,21 @@
       <option name="ignoredModules">
         <list>
           <option value="ubi-conf-orm" />
+          <option value="ubi-conf-orm" />
+          <option value="ubi-conf-orm" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="com.fasterxml.jackson.core:jackson-core:2.13.5" />
+          <option value="org.testng:testng:7.4.0" />
+          <option value="org.yaml:snakeyaml:1.31" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
       </option>

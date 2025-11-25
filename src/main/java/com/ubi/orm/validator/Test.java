@@ -1,5 +1,8 @@
 package com.ubi.orm.validator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.Map;
 public class Test {
     public static void main(String[] args) throws Exception {
         // 示例1：通过JSON字符串定义paramsMapping规则
-        String paramsMappingJson = "[\n" +
+        String paramsMappingJson =
                 "    {\n" +
                 "        \"field\": \"id\",\n" +
                 "        \"source\": \"body\",\n" +
@@ -16,19 +19,13 @@ public class Test {
                 "            {\"type\": \"number\", \"message\": \"ID必须为数字\"},\n" +
                 "            {\"type\": \"min\", \"param\": 1, \"message\": \"ID不能小于1\"}\n" +
                 "        ]\n" +
-                "    },\n" +
-                "    {\n" +
-                "        \"field\": \"username\",\n" +
-                "        \"source\": \"body\",\n" +
-                "        \"alias\": \"keyword\",\n" +
-                "        \"validators\": [\n" +
-                "            {\"type\": \"required\", \"message\": \"用户名不能为空\"},\n" +
-                "            {\"type\": \"maxlen\", \"param\": 4, \"message\": \"用户名最长4位\"},\n" +
-                "            {\"type\": \"minlen\", \"param\": 2, \"message\": \"用户名最短2位\"}\n" +
-                "        ]\n" +
-                "    }\n" +
-                "]";
+                "    }\n";
+
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            // 将JSON数组解析为FieldRule列表（需引入Jackson依赖）
+            ParamsMapping paramMapping = objectMapper.readValue(paramsMappingJson, new TypeReference<ParamsMapping>() {});
+            System.out.println("paramMapping："+paramMapping.toString());
             // 创建校验器
             Joi validator = new Joi(paramsMappingJson);
 
@@ -41,7 +38,7 @@ public class Test {
             dataSource.put("body", bodyData);
 
             // 执行校验
-            validator.validate(0);
+            validator.validate(4);
 
             // 输出校验结果（key为alias，如username的alias是keyword）
             System.out.println("校验错误：");
@@ -68,12 +65,13 @@ public class Test {
             // 创建校验器并验证
             Joi validator2 = new Joi(ageRule);
             Map<String, Object> paramsData = new HashMap<>();
-            paramsData.put("age", "200"); // 违反max(150)
+            paramsData.put("age", "120"); // 违反max(150)
             Map<String, Map<String, Object>> dataSource2 = new HashMap<>();
             dataSource2.put("params", paramsData);
-            System.out.println("age校验错误：" + validator2.validate(dataSource2));
+            System.out.println("age校验错误：" + validator2.validate("120"));
             // 输出：age校验错误：{age=[age不能大于150]}
         } catch (Exception e){
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
 

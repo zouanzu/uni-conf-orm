@@ -1,4 +1,4 @@
-package com.ubi.orm.job.script;
+package com.ubi.orm.script;
 
 import java.util.Map;
 
